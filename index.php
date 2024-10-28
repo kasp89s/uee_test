@@ -21,7 +21,7 @@ if ( ! isset( $submit_action ) ) {
 	$company_shortname_ukr = 'ТОВ "ТЕСТ"';
 	$company_shortname_eng = '"TEST" Co Ltd';
 	$company_constituent_doc = 'статуту';
-	$company_ownership_form = 'колективна';
+	$company_ownership_form = 'Приватна';
 	$company_legal_address_code = '01001';
 	$company_legal_address_country = 'Україна';
 	$company_legal_address_oblast = 'Київська';
@@ -53,7 +53,6 @@ if ( ! isset( $submit_action ) ) {
 	$bank_name_eng1 = 'Joint Stock Company "State Export-Import Bank of Ukraine"';
 	$bank_address1 = 'м. Київ, вул. Антоновича, 127';
 	$banking_account1 = 'UA213223130000026007233566001';
-	$bank_code1 = '322313';
 	$bank_blocks_num = 1;
 
 	$ceo_fullname_nom = 'Керівник Віталій Олександрович';
@@ -182,13 +181,13 @@ $info_text3 = 'Будь ласка, відкорегуйте поля анкет
 						$fcount = $doc_num = 0;
 						$query_form = mysql_query( "SELECT * FROM inputs_$type ORDER BY ord ASC" );
 						while ( $row_form = mysql_fetch_assoc( $query_form ) ) {
-                            if (empty(${$row_form['name']})) {
-                                continue;
-                            }
+//                            if (empty(${$row_form['name']})) {
+//                                continue;
+//                            }
 
                             $fcount++;
                             $backend_info = false;
-                            $field_name = ${$row_form['name']};
+                            $field_name = !empty(${$row_form['name']}) ? ${$row_form['name']} : '';
                             $class_form_label = $class_form_field = '';
                             $query_subfields = mysql_query( "SELECT name FROM inputs_$type WHERE parent=" . $row_form['name'] );
                             if ( $row_form['parent'] ) {

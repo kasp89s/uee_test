@@ -31,8 +31,14 @@ while ( $_row = mysql_fetch_assoc( $query ) ) {
 }
 
 if ( ! empty( $_db_rows ) && empty( $_backend_failed ) ) {
-	$db = mysql_query( 'INSERT INTO users SET ' . db_set_array( $_db_rows ) );
-	$info_text3 = 'Анкету отримано!';
+    $validate_regexp = validate_regexp($_db_rows);
+
+    if (!empty($validate_regexp)) {
+        $info_text3 = 'Сталася помилка, повторiть спробу ще раз!';
+    } else {
+        $db = mysql_query( 'INSERT INTO users SET ' . db_set_array( $_db_rows ) );
+        $info_text3 = 'Анкету отримано!';
+    }
 } else {
 	$info_text3 = 'Сталася помилка!';
 }

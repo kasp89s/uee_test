@@ -51,3 +51,29 @@ function db_set_array( $_set ) {
 	}
 	return implode( ', ', $_sql);
 }
+
+/**
+ * Валидация по геруляркам с БД.
+ *
+ * @param $fields_to_save
+ *
+ * @return array
+ */
+function validate_regexp($fields_to_save)
+{
+    $errors = [];
+
+    $query = mysql_query("SELECT `name`, `regexp` FROM ueex_tt.inputs_exch WHERE `regexp` != ''");
+
+    while ( $_row = mysql_fetch_assoc( $query ) ) {
+        if (isset($fields_to_save[$_row['name']])) {
+            $pattern = "/{$_row['regexp']}/";
+
+            if (!preg_match($pattern, $fields_to_save[$_row['name']])) {
+                $errors[] = $_row['name'];
+            }
+        }
+    }
+
+    return $errors;
+}
