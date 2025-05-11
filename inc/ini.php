@@ -12,10 +12,10 @@ $form_fieldtype_class = [
 	'6' => 'form-check-input',
 ];
 
-$hostname = '127.0.0.1';
+$hostname = 'mysql';
 $dbname = 'ueex_tt';
-$dbusername = 'root';
-$dbpassword = '';
+$dbusername = 'ueex_tt';
+$dbpassword = 'g65uerden';
 
 $db_connect = @mysql_connect( $hostname, $dbusername, $dbpassword ) or die( 'DB connection failed!' );
 mysql_select_db( $dbname ) or die( mysql_error() );

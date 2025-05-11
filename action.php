@@ -25,20 +25,25 @@ while ( $_row = mysql_fetch_assoc( $query ) ) {
 				continue;
 			}
 
+            // Додати backend валідацію (за регулярними виразами) для кожного поля, якщо такий запис наявний в
+            // стовпці «regexp» БД.
+            if (!empty($_row['regexp'])) {
+                $pattern = "/{$_row['regexp']}/";
+
+                if (!preg_match($pattern, $val)) {
+                    $_backend_failed[] = $key;
+                    continue;
+                }
+            }
+
 			$_db_rows[ $_row['name'] ] = $val;
 		}
 	}
 }
 
 if ( ! empty( $_db_rows ) && empty( $_backend_failed ) ) {
-    $validate_regexp = validate_regexp($_db_rows);
-
-    if (!empty($validate_regexp)) {
-        $info_text3 = 'Сталася помилка, повторiть спробу ще раз!';
-    } else {
-        $db = mysql_query( 'INSERT INTO users SET ' . db_set_array( $_db_rows ) );
-        $info_text3 = 'Анкету отримано!';
-    }
+	$db = mysql_query( 'INSERT INTO users SET ' . db_set_array( $_db_rows ) );
+	$info_text3 = 'Анкету отримано!';
 } else {
 	$info_text3 = 'Сталася помилка!';
 }

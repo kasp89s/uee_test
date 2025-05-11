@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx.dockerfile
+    ports:
+      - 8097:80
+    links:
+      - fpm
+    volumes:
+      - ./:/var/www/web
+  # сам проект
+  fpm:
+    tty: true
+    build:
+      context: .
+      dockerfile: ${FPM_CONFIG_FILE:-docker/fpm.dockerfile}
+    volumes:
+      - ./:/var/www/web
+    links:
+      - mysql
+
+  mysql:
+    image: mysql:5.5
+    ports:
+      - 33061:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 'g65uerden'
+      MYSQL_USER: ueex_tt
+      MYSQL_PASSWORD: 'g65uerden'
+      MYSQL_DATABASE: ueex_tt
+    volumes:
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+#    command: composer install & tail -f /dev/null

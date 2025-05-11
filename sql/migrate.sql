@@ -14,7 +14,7 @@ INSERT INTO `inputs_exch`
 COMMIT;
 
 --
--- ADD: `agent_fullname_acc2`
+-- ADD: `agent_fullname_eng2`
 --
 START TRANSACTION;
 
@@ -25,6 +25,21 @@ UPDATE `inputs_exch` SET `ord` = `ord` + 1 WHERE `ord` > @agent_fullname_acc2_or
 INSERT INTO `inputs_exch`
 (`ord`, `name`, `value`, `descr`, `fieldtype`, `parent`, `header`, `mandatory`, `pctwidth`, `note`, `regexp`, `validation_info`) VALUES
     (@agent_fullname_acc2_order + 1, 'agent_fullname_eng2', '', '', '1', '', '0', '1', '50', '(англійською мовою)', '', '');
+
+COMMIT;
+
+--
+-- ADD: `agent_fullname_eng3`
+--
+START TRANSACTION;
+
+SET @agent_fullname_acc3_order=(SELECT `ord` FROM `inputs_exch` WHERE `name` = 'agent_fullname_acc3');
+
+UPDATE `inputs_exch` SET `ord` = `ord` + 1 WHERE `ord` > @agent_fullname_acc3_order;
+
+INSERT INTO `inputs_exch`
+(`ord`, `name`, `value`, `descr`, `fieldtype`, `parent`, `header`, `mandatory`, `pctwidth`, `note`, `regexp`, `validation_info`) VALUES
+    (@agent_fullname_acc3_order + 1, 'agent_fullname_eng3', '', '', '1', '', '0', '1', '50', '(англійською мовою)', '', '');
 
 COMMIT;
 
